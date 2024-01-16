@@ -6,19 +6,20 @@
 > be re-contained. Clyde will not be missed.
 
 Bog is a Discord chatbot written in Rust using Serenity. He currently uses OpenRouter's API to generate 
-responses to mentions using their range of LLMs ("range" being used pretty loosely as he currently 
-is hardcoded to run inference with the `Mixtral-8x7B-Instruct` model).
+responses to mentions using an LLM (Bog is currently hardcoded to run inference with the `Mixtral-8x7B-Instruct` model).
 
 In his current form, Bog is a very basic prototype and mostly just serves as a conduit to learn Rust.
 
-## running bog
+## Usage
 
-Bog uses a configuration file (`config.toml`), which should contain Discord & OpenRouter auth tokens:
+Bog authorizes with the Discord and OpenRouter APIs via a configuration file, `config.toml`, which must contain both a Discord client secret 
+and an OpenRouter API key:
 
 ```toml
 [secrets]
 discord_token="YOUR_DISCORD_TOKEN"
 openrouter_token="YOUR_OPENROUTER_TOKEN"
 ```
+> See [discord/oauth2](https://discord.com/developers/docs/topics/oauth2) or [openrouter/api-keys](https://openrouter.ai/docs#api-keys) for more info.
 
 If running Bog via `cargo run`, Bog expects the config to be found in the package's root directory.
