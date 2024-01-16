@@ -13,13 +13,16 @@ In his current form, Bog is a very basic prototype and mostly just serves as a c
 ## Usage
 
 Bog authorizes with the Discord and OpenRouter APIs via a configuration file, `config.toml`, which must contain both a Discord client secret 
-and an OpenRouter API key:
+and an OpenRouter API key, as well as a name for Bog:
 
 ```toml
 [secrets]
 discord_token="YOUR_DISCORD_TOKEN"
 openrouter_token="YOUR_OPENROUTER_TOKEN"
+
+[bot]
+name="Bog"
 ```
-> See [discord/oauth2](https://discord.com/developers/docs/topics/oauth2) or [openrouter/api-keys](https://openrouter.ai/docs#api-keys) for more info.
+> See [discord/oauth2](https://discord.com/developers/docs/topics/oauth2) or [openrouter/api-keys](https://openrouter.ai/docs#api-keys) for more info on access tokens.
 
 If running Bog via `cargo run`, Bog expects the config to be found in the package's root directory.
