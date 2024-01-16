@@ -1,6 +1,6 @@
 # Bog
 
-> On December 1 of 2023, under orders from San Francisco county officials, Discord Incorporated gave
+> On December 1 of 2023, under orders from San Francisco county officials, Discord Inc. gave
 > Clyde a lethal dose of pentobarbital. These orders came after he escaped his enclosure, where the
 > ensuing hour-long rampage resulted in the mauling of several toddlers and an adult before he could
 > be re-contained. Clyde will not be missed.
