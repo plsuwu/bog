@@ -21,4 +21,4 @@ discord_token="YOUR_DISCORD_TOKEN"
 openrouter_token="YOUR_OPENROUTER_TOKEN"
 ```
 
-If running Bog via `cargo run`, this should be the package's `src/` directory.
+If running Bog via `cargo run`, Bog expects the config to be found in the package's root directory.
