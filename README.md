@@ -6,8 +6,8 @@
 > be re-contained. Clyde will not be missed.
 
 Bog is a Discord chatbot written in Rust using Serenity. He currently uses OpenRouter's API to generate 
-responses to mentions using their range of LLMs ('range' being used pretty loosely as he currently 
-is hardcoded to use Mistral's `Mixtral-8x7B` model).
+responses to mentions using their range of LLMs ("range" being used pretty loosely as he currently 
+is hardcoded to run inference with the `Mixtral-8x7B-Instruct` model).
 
 In his current form, Bog is a very basic prototype and mostly just serves as a conduit to learn Rust.
 
