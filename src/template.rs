@@ -8,6 +8,7 @@ use toml;
 
 lazy_static! {
     // this should eventually be non-static & globally accessible (fine for now though).
+    // also refactor into models or configuration module maybe??
     pub static ref PROMPT: Prompt = Prompt::read_from_file("src/prompt_templates/bog.toml");
 }
 
