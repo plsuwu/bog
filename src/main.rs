@@ -1,7 +1,8 @@
 pub mod configuration;
 pub mod inference;
-pub mod utils;
 pub mod models;
+pub mod template;
+pub mod utils;
 
 use configuration::CONFIG;
 use inference::openrouter;
@@ -21,23 +22,26 @@ impl EventHandler for Handler {
             return;
         }
         if msg.mentions_me(&ctx.http).await.unwrap() {
-            // log the message to console
+            // log received message and sender to console
             println!(
-                "\n[*] INCOMING (from '{}'):\n  ```\n  {}\n  ```\n",
+                "\nIncoming (user '{}'):\n{}\n",
                 msg.author.name, msg.content
             );
 
             let result = openrouter(msg.to_owned()).await;
 
             match result {
+                // successful response
                 Ok(response) => {
-                    println!("[*] RES OK => \n  ```\n  {}\n  ```\n", &response);
+                    println!("\nResponse:\n{}\n", &response);
                     if let Err(why) = msg.reply(&ctx.http, &response).await {
-                        println!("[!] Err while sending message => {:?}", why);
+                        eprintln!("Err sending message: {:?}", why);
                     }
                 }
+
+                // unexpected response
                 Err(why) => {
-                    println!("[!] Err reading response => {:?}", why);
+                    eprintln!("Err reading response: {:?}", why);
                 }
             }
         };
@@ -45,7 +49,7 @@ impl EventHandler for Handler {
 
     async fn ready(&self, _: Context, ready: Ready) {
         println!(
-            "\n[*] Ready: \nlogged in as '{}', id => '{}', using name '{}'.",
+            "\n{} Connected:\n id => '{}', \n name => '{}'.",
             ready.user.name, ready.user.id, &CONFIG.bot.name
         );
     }
@@ -63,9 +67,9 @@ async fn main() {
     let mut client = Client::builder(&token_discord, intents)
         .event_handler(Handler)
         .await
-        .expect("Err creating client.");
+        .expect("Err during client build");
 
     if let Err(why) = client.start().await {
-        println!("Err starting client => {:?}", why);
+        println!("Err starting client: {:?}", why);
     }
 }

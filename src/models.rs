@@ -1,12 +1,57 @@
 use serde::{Deserialize, Serialize};
 
+/// Struct for settings in json request.
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Settings {
+    pub model: String,
+    pub temperature: f32,
+    pub max_tokens: i32,
+    pub stream: bool,
+    pub presence_penalty: f32,
+    pub frequency_penalty: f32,
+    pub top_p: f32,
+    pub top_k: i32,
+    pub transforms: Vec<String>,
+    pub min_p: f32,
+    pub top_a: f32,
+}
+
+
+impl RequestBody {
+    /// Instantiates a new [`RequestBody`] object.
+    pub fn new(
+        // i do not believe this is how you do this
+        model: &str, temp: f32, max_t: i32, stream: bool,
+        p_pen: f32, f_pen: f32, top_p: f32, top_k: i32,
+        transforms: Vec<String>, min_p: f32, top_a: f32,
+        messages: Vec<RequestMessage>
+        ) -> Self {
+        Self {
+            messages,
+            settings: Settings {
+                model: model.to_string(),
+                temperature: temp,
+                max_tokens: max_t,
+                stream,
+                presence_penalty: p_pen,
+                frequency_penalty: f_pen,
+                top_p,
+                top_k,
+                transforms,
+                min_p,
+                top_a
+            },
+        }
+    }
+}
+
 /// Struct for json body request data
 /// # Example request data structure
 ///```
 ///{
 ///     "model": "anthropic/claude-2",
-///     // Vec<RequestMessage> allows for multiple messages
-///     // from the POST request:
+///     // Wrapping `<RequestMessage>` in a vec is mandatory, but also
+///     // allows us to append multiple messages to a POST request.
 ///     "messages": [
 ///         {
 ///            "role": "user",
@@ -20,24 +65,30 @@ use serde::{Deserialize, Serialize};
 ///}
 ///```
 #[derive(Serialize, Deserialize, Debug)]
-pub struct RequestBody {
+pub struct RequestMessageBody {
     pub model: String,
     pub messages: Vec<RequestMessage>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct RequestBody {
+    pub messages: Vec<RequestMessage>,
+    pub settings: Settings,
 }
 
 /// Struct for nested request message data. Serializes a single message
 /// # Example request message structure
 /// ```
-/// // Parent wraps this content with a `Vec<...`
+/// // Parent wraps this content with a `Vec<...
 /// [
-///     // which contains the `...RequestMessage>` struct:
+///     // which contains the ...RequestMessage>` struct:
 ///     {
 ///         "role": "user",
 ///         "content": "This is sent from the user."
 ///     }
 /// ]
 /// ```
-/// # Overall request structure
+/// ## Overall request structure
 /// ```
 ///{
 ///     "model": "anthropic/claude-2",
@@ -55,22 +106,12 @@ pub struct RequestMessage {
     pub content: String,
 }
 
-impl RequestBody {
-    /// Instantiate a new `RequestBody` object.
-    pub fn new(model: &str, messages: Vec<RequestMessage>) -> Self {
-        Self {
-            model: model.to_string(),
-            messages,
-        }
-    }
-}
-
 impl RequestMessage {
     /// Instantiate a new `RequestMessage` object.
     pub fn new(role: &str, content: String) -> Self {
         Self {
             role: role.to_string(),
-            content,
+            content: content.to_string(),
         }
     }
 }
@@ -132,6 +173,7 @@ pub struct ResponseMessage {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ResponseContent {
     pub content: String,
+    pub role: String,
 }
 
 
